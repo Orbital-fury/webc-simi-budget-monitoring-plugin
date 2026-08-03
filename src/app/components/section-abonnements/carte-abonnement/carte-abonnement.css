@@ -1,0 +1,84 @@
+.abo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-md);
+}
+
+.abo-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--simi-space-md);
+}
+
+.abo-identite h4 {
+  font-weight: 600;
+}
+
+.abo-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-sm);
+  font-size: var(--simi-font-size-sm);
+  color: var(--simi-color-text-muted);
+  margin-top: var(--simi-space-xs);
+}
+
+.meta-sep {
+  opacity: 0.5;
+}
+
+.abo-montant {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.abo-montant .valeur {
+  font-weight: 700;
+  font-size: var(--simi-font-size-lg);
+}
+
+.abo-montant .freq {
+  display: block;
+  font-size: var(--simi-font-size-xs);
+  color: var(--simi-color-text-muted);
+}
+
+.periodes summary {
+  cursor: pointer;
+  font-size: var(--simi-font-size-sm);
+  color: var(--simi-color-text-muted);
+  user-select: none;
+}
+
+.periodes ul {
+  list-style: none;
+  margin-top: var(--simi-space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-xs);
+}
+
+.periodes li {
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-sm);
+  font-size: var(--simi-font-size-xs);
+  color: var(--simi-color-text-muted);
+}
+
+.periodes .num {
+  font-variant-numeric: tabular-nums;
+}
+
+.periodes .encours {
+  color: var(--simi-color-success);
+  font-weight: 600;
+}
+
+.abo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--simi-space-xs);
+  margin-top: var(--simi-space-xs);
+}

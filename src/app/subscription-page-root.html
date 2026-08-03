@@ -1,0 +1,23 @@
+<div class="plugin-main">
+  <div class="brand">
+    <h1>💸 Suivi Budget</h1>
+  </div>
+
+  <div class="saisie-nombres">
+    <app-carte-saisie-nombre
+      libelle="Salaire mensuel"
+      icone="💰"
+      [value]="salaire()"
+      (valueChange)="onSalaire($event)"
+    />
+    <app-carte-saisie-nombre
+      libelle="Budget mensuel"
+      icone="🎯"
+      [value]="budget()"
+      (valueChange)="onBudget($event)"
+    />
+  </div>
+
+  <app-section-suivi></app-section-suivi>
+  <app-section-abonnements></app-section-abonnements>
+</div>

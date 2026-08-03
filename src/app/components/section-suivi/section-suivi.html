@@ -1,0 +1,91 @@
+<section>
+  <header class="suivi-header">
+    <div>
+      <h2>Suivi</h2>
+      <p class="subtitle">
+        @if (selectionPeriode().vue === 'mois') {
+          {{ selectionPeriode().date | date: 'MMMM yyyy' : 'fr-FR' | titlecase }}
+        } @else {
+          Année {{ selectionPeriode().annee }}
+        }
+        <span> · {{ depenses().length }} Dépense{{ depenses().length > 1 ? 's' : '' }}</span>
+      </p>
+    </div>
+    <app-selecteur-periode></app-selecteur-periode>
+  </header>
+
+  <!-- Barre de budget -->
+  <div class="grille-suivi budget-solde">
+    <simi-card>
+      <div slot="header" style="display: flex; justify-content: space-between">
+        <span>Budget</span>
+        <span>
+          {{ referenceBudget() | formatEuros }}
+          /
+          {{ budget() | formatEuros }}
+        </span>
+      </div>
+      <div class="barre-fond">
+        <div
+          class="barre-remplissage"
+          [class]="{ depasse: budget() > 0 && referenceBudget() > budget() }"
+          [style]="{ width: largeurBarre() }"
+        ></div>
+      </div>
+      <div class="barre-pied">
+        @if (budget() === 0) {
+          <span class="text-muted"> Définissez un budget mensuel pour suivre vos dépenses. </span>
+        } @else if (referenceBudget() > budget()) {
+          <span class="text-danger"> Budget dépassé de {{ pourcentageBudget() - 100 }} % </span>
+        } @else {
+          <span class="text-success"> {{ pourcentageBudget() }} % du budget utilisé </span>
+        }
+      </div>
+    </simi-card>
+
+    <simi-card>
+      <span slot="header">Solde</span>
+      <div class="montant-carte" [class]="solde() >= 0 ? 'text-success' : 'text-danger'">
+        {{ solde() | formatEuros }}
+      </div>
+      <div class="sous">{{ solde() >= 0 ? 'Excédent' : 'Déficit' }}</div>
+    </simi-card>
+  </div>
+
+  <!-- Liste + Camembert -->
+  <div class="grille-suivi">
+    <simi-card>
+      <span slot="header">Dépenses de la période</span>
+      @if (depenses().length > 0) {
+        <ul class="liste-dep">
+          @for (ligne of depenses(); track ligne.id) {
+            <li class="ligne-dep">
+              <div
+                class="badge-dot"
+                [style]="{ backgroundColor: ligne.categorie | couleurCategorie }"
+              ></div>
+              <span class="ligne-libelle">
+                {{ ligne.libelle }}
+                <span class="badge badge-muted">{{
+                  ligne.type === 'abonnement' ? 'abonnement' : 'ponctuelle'
+                }}</span>
+              </span>
+              <span class="ligne-montant">{{ ligne.montant | formatEuros }}</span>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="empty">
+          <span>Aucune dépense sur cette période.</span>
+        </div>
+      }
+    </simi-card>
+
+    <simi-card>
+      <span slot="header">Dépenses par catégorie</span>
+      <app-repartition-categories
+        [repartition]="repartitionDepenses()"
+      ></app-repartition-categories>
+    </simi-card>
+  </div>
+</section>

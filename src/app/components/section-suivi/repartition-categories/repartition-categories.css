@@ -1,0 +1,63 @@
+.camembert {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-xl);
+}
+
+.graphique {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centre {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.centre .total {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.centre .lbl {
+  font-size: 0.75rem;
+  color: var(--simi-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.legende {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-sm);
+}
+
+.legende li {
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-sm);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.cat {
+  flex: 1;
+}
+
+.montant {
+  font-weight: 600;
+}
+
+.vide {
+  color: var(--simi-color-text-muted);
+}

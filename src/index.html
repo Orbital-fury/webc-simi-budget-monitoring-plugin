@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Budget Monitoring Plugin - Harnais de dev</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f1f5f9;
+      }
+      header {
+        padding: 12px 16px;
+        background: #0f172a;
+        color: #fff;
+        font-size: 14px;
+      }
+      main {
+        padding: 24px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      Harnais de developpement local - non utilise en production (le Hub charge uniquement le bundle
+      JS du plugin)
+    </header>
+    <main>
+      <subscription-page id="plugin"></subscription-page>
+    </main>
+    <script type="module">
+      const plugin = document.getElementById('plugin');
+
+      function segmentFromHash() {
+        return location.hash.replace(/^#\/?/, '');
+      }
+
+      function applyRoute() {
+        plugin.subRoute = segmentFromHash();
+      }
+
+      plugin.assetBaseUrl = '/';
+      applyRoute();
+      window.addEventListener('hashchange', applyRoute);
+
+      plugin.addEventListener('plugin-navigate', (event) => {
+        location.hash = `/${event.detail.path}`;
+      });
+
+      plugin.addEventListener('plugin-action', (event) => {
+        console.log('[plugin-action]', event.detail);
+      });
+    </script>
+  </body>
+</html>

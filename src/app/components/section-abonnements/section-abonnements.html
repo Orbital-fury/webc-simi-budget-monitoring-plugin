@@ -1,0 +1,89 @@
+<section>
+  <simi-card>
+    <span slot="header">Abonnements & prélèvements</span>
+
+    <!-- Onglets -->
+    <div class="onglets" role="tablist">
+      <button
+        role="tab"
+        class="onglet"
+        [class]="{ active: onglet() === 'mensuel' }"
+        [attr.aria-selected]="onglet() === 'mensuel'"
+        (click)="onglet.set('mensuel')"
+      >
+        Mensuels récurrents
+        <span class="compte">{{ abonnementsMensuels().length }}</span>
+        <span class="resume">{{ totalMensuel() | formatEuros }}/mois</span>
+      </button>
+      <button
+        role="tab"
+        class="onglet"
+        [class]="{ active: onglet() === 'annuel' }"
+        [attr.aria-selected]="onglet() === 'annuel'"
+        (click)="onglet.set('annuel')"
+      >
+        Annuels récurrents
+        <span class="compte">{{ abonnementsAnnuels().length }}</span>
+        <span class="resume">{{ totalAnnuel() | formatEuros }}/an</span>
+      </button>
+    </div>
+
+    <div class="contenu-onglet">
+      <div class="contenu-header">
+        <simi-button (click)="ouvrirAjout()">
+          + Ajouter un abonnement {{ onglet() === 'mensuel' ? 'mensuel' : 'annuel' }}
+        </simi-button>
+      </div>
+
+      @if (listeCourante().length === 0) {
+        <div class="empty">
+          Aucun abonnement {{ onglet() === 'mensuel' ? 'mensuel' : 'annuel' }} pour le moment.
+        </div>
+      } @else {
+        <div class="grille">
+          @for (a of listeCourante(); track a.id) {
+            <app-carte-abonnement
+              [abonnement]="a"
+              (editer)="ouvrirEdition(a)"
+              (supprimer)="aSupprimer.set(a)"
+              (arreter)="arreterAbonnement(a.id)"
+              (reprendre)="reprendreAbonnement(a.id)"
+            />
+          }
+        </div>
+      }
+    </div>
+  </simi-card>
+
+  <!-- Modale ajout / édition -->
+  @if (isAddEditAboOpen()) {
+    <simi-modal [opened]="isAddEditAboOpen()" (simi-modal-close)="closeAddEditModal()">
+      <span slot="header">{{ aEditer() ? "Éditer l'abonnement" : 'Ajouter un abonnement' }}</span>
+
+      <app-form-abonnement
+        [abonnement]="aEditer()"
+        [onglet]="onglet()"
+        (submit)="enregistrerAbonnement($event)"
+        (cancel)="closeAddEditModal()"
+      />
+    </simi-modal>
+  }
+
+  <!-- Confirmation suppression -->
+  @if (aSupprimer()) {
+    <simi-modal size="lg" [opened]="aSupprimer()" (simi-modal-close)="aSupprimer.set(null)">
+      <span slot="header">Supprimer l'abonnement ?</span>
+      <p>
+        Voulez-vous vraiment supprimer l'abonnement
+        <strong>{{ aSupprimer()!.libelle }}</strong> ({{ aSupprimer()!.montant | formatEuros }}/{{
+          aSupprimer()!.frequence === 'mensuel' ? 'mois' : 'an'
+        }}) ?
+      </p>
+      <p class="confirm-aide">L'historique des périodes sera perdu.</p>
+      <div class="confirm-actions">
+        <simi-button color="secondary" (click)="aSupprimer.set(null)">Annuler</simi-button>
+        <simi-button color="danger" (click)="confirmerSuppression()">Supprimer</simi-button>
+      </div>
+    </simi-modal>
+  }
+</section>

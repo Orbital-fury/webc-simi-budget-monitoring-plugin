@@ -1,0 +1,33 @@
+<simi-card>
+  <span slot="header">{{ libelle() }}</span>
+  <div class="carte-saisie">
+    <div class="icone">{{ icone() }}</div>
+    <div class="corps">
+      @if (edition()) {
+        <div class="edition">
+          <input
+            class="input mono"
+            type="number"
+            min="0"
+            step="1"
+            inputmode="decimal"
+            autofocus
+            [value]="valeurLocal()"
+            (keyup.enter)="valider()"
+            (keyup.escape)="annuler()"
+            (input)="changeValeurLocal($event)"
+          />
+          <span class="unite">€/mois</span>
+          <simi-button color="primary" (click)="valider()">OK</simi-button>
+          <simi-button color="secondary" (click)="annuler()">Annuler</simi-button>
+        </div>
+      } @else {
+        <div class="valeur-row">
+          <span class="valeur mono">{{ value() > 0 ? value().toLocaleString('fr-FR') : '—' }}</span>
+          <span class="unite">€/mois</span>
+          <simi-button color="secondary" (click)="debutEdition()">Modifier</simi-button>
+        </div>
+      }
+    </div>
+  </div>
+</simi-card>

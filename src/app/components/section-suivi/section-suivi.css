@@ -1,0 +1,121 @@
+.suivi-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--simi-space-xl);
+}
+
+.subtitle {
+  color: var(--simi-color-text-muted);
+  font-size: var(--simi-font-size-sm);
+}
+
+.text-success {
+  color: var(--simi-color-success);
+}
+
+.text-danger {
+  color: var(--simi-color-danger);
+}
+
+.grille-suivi {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--simi-space-lg);
+}
+
+.budget-solde {
+  margin-bottom: var(--simi-space-lg);
+}
+
+.barre-fond {
+  height: 10px;
+  background: var(--simi-color-bg-subtle);
+  border-radius: var(--simi-radius-full);
+  overflow: hidden;
+}
+
+.barre-remplissage {
+  height: 100%;
+  background: var(--simi-color-success);
+  border-radius: var(--simi-radius-full);
+  transition:
+    width 320ms ease,
+    background var(--simi-transition-base);
+}
+
+.barre-remplissage.depasse {
+  background: var(--simi-color-danger);
+}
+
+.barre-pied {
+  margin-top: var(--simi-space-md);
+  font-size: var(--simi-font-size-sm);
+}
+
+.montant-carte {
+  font-size: var(--simi-font-size-2xl);
+  font-weight: 700;
+}
+
+.sous {
+  font-size: var(--simi-font-size-sm);
+  color: var(--simi-color-text-muted);
+  margin-top: var(--simi-space-xs);
+}
+
+.liste-dep {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-xs);
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.ligne-dep {
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-md);
+  padding: var(--simi-space-sm) var(--simi-space-md);
+  border-radius: var(--simi-radius-md);
+  font-size: var(--simi-font-size-md);
+}
+
+.ligne-dep:hover {
+  background: var(--simi-color-bg-subtle);
+}
+
+.ligne-dep .dot {
+  font-size: var(--simi-font-size-xs);
+}
+
+.ligne-libelle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-sm);
+}
+
+.ligne-montant {
+  font-weight: 600;
+}
+
+.empty {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: var(--simi-color-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .cartes {
+    grid-template-columns: 1fr;
+  }
+
+  .grille-suivi {
+    grid-template-columns: 1fr;
+  }
+}

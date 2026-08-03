@@ -1,0 +1,29 @@
+<div class="camembert">
+  <div class="graphique">
+    @if (repartition().length > 0) {
+      <canvas baseChart type="doughnut" [data]="chartData()" [options]="chartOptions()"></canvas>
+    } @else {
+      <div class="vide">Aucune dépense sur cette période.</div>
+    }
+  </div>
+
+  @if (repartition().length > 0) {
+    <div class="centre">
+      <span class="total">{{ total() | formatEurosCompact }}</span>
+      <span class="lbl">Total</span>
+    </div>
+
+    <ul class="legende">
+      @for (r of repartition(); track r.categorie) {
+        <li>
+          <span
+            class="badge-dot"
+            [style]="{ backgroundColor: r.categorie | couleurCategorie }"
+          ></span>
+          <span class="cat">{{ r.categorie }}</span>
+          <span class="montant">{{ r.montant | formatEurosCompact }}</span>
+        </li>
+      }
+    </ul>
+  }
+</div>

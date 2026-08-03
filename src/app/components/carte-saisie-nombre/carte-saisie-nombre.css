@@ -1,0 +1,43 @@
+.carte-saisie {
+  display: flex;
+  gap: var(--simi-space-lg);
+}
+
+.icone {
+  font-size: var(--simi-font-size-2xl);
+  display: flex;
+  align-items: center;
+}
+
+.desc {
+  font-size: var(--simi-font-size-sm);
+  color: var(--simi-color-text-faint);
+}
+
+.valeur-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--simi-space-md);
+  margin-top: var(--simi-space-md);
+}
+
+.valeur {
+  font-size: var(--simi-font-size-2xl);
+  font-weight: 700;
+}
+
+.unite {
+  font-size: var(--simi-font-size-md);
+  color: var(--simi-color-text-muted);
+}
+
+.edition {
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-sm);
+  margin-top: var(--simi-space-md);
+}
+
+.edition .input {
+  width: 130px;
+}

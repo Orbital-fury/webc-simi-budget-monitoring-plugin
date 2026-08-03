@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-md);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-sm);
+  color: var(--simi-color-text-muted);
+}
+
+input,
+select {
+  width: 100%;
+  padding: var(--simi-space-md);
+  border: 1px solid var(--simi-color-border);
+  border-radius: var(--simi-radius-md);
+  background-color: var(--simi-color-bg-subtle);
+  font-size: var(--simi-font-size-md);
+  transition:
+    border-color var(--simi-transition-base),
+    box-shadow var(--simi-transition-base);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--simi-space-lg);
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--simi-space-md);
+}
+
+.aide {
+  font-size: var(--simi-font-size-xs);
+  color: var(--simi-color-text-muted);
+}
+
+.erreur {
+  color: var(--simi-color-danger);
+  font-size: var(--simi-font-size-xs);
+  height: var(--simi-font-size-xs);
+}

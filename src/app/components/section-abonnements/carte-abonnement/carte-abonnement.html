@@ -1,0 +1,60 @@
+<simi-card>
+  <div class="abo">
+    <div class="abo-top">
+      <div class="abo-identite">
+        <h4>{{ abonnement().libelle }}</h4>
+        <div class="abo-meta">
+          <span class="badge" [class]="actif() ? 'badge-success' : 'badge-muted'">
+            <span
+              class="badge-dot"
+              [style.background]="actif() ? 'currentColor' : 'currentColor'"
+            ></span>
+            {{ actif() ? 'Actif' : 'Suspendu' }}
+          </span>
+          <span class="meta-sep">·</span>
+          <span>{{ abonnement().categorie }}</span>
+        </div>
+      </div>
+      <div class="abo-montant">
+        <span class="valeur mono">{{ abonnement().montant | formatEuros }}</span>
+        <span class="freq">/ {{ abonnement().frequence === 'mensuel' ? 'mois' : 'an' }}</span>
+      </div>
+    </div>
+
+    <details class="periodes">
+      <summary>
+        {{ abonnement().periodes.length }}
+        période{{ abonnement().periodes.length > 1 ? 's' : '' }} d'activité
+      </summary>
+      <ul>
+        @for (p of abonnement().periodes; track i; let i = $index) {
+          <li>
+            <span class="num">#{{ i + 1 }}</span>
+            <span>{{ p.debut | date: 'mediumDate' : 'fr' }} →</span>
+            @if (p.fin) {
+              <span>{{ p.fin | date: 'mediumDate' : 'fr' }}</span>
+            } @else {
+              <span class="encours">en cours</span>
+            }
+          </li>
+        }
+      </ul>
+    </details>
+
+    <div class="abo-actions">
+      <simi-button color="secondary" variant="outline" (click)="editer.emit()">Éditer</simi-button>
+      <simi-button color="danger" variant="outline" (click)="supprimer.emit()"
+        >Supprimer</simi-button
+      >
+      @if (actif()) {
+        <simi-button color="secondary" variant="outline" (click)="arreter.emit()"
+          >Arrêter</simi-button
+        >
+      } @else {
+        <simi-button color="success" variant="outline" (click)="reprendre.emit()"
+          >Reprendre</simi-button
+        >
+      }
+    </div>
+  </div>
+</simi-card>

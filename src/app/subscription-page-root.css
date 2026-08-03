@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  font-family: var(--simi-font-family, system-ui, sans-serif);
+  color: var(--simi-color-text, #0f172a);
+  max-width: 1024px;
+  margin: 0 auto;
+  padding-bottom: var(--simi-space-xl);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.plugin-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--simi-space-lg);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--simi-space-sm, 8px);
+}
+
+.brand h1 {
+  margin: 0;
+}
+
+.saisie-nombres {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--simi-space-lg);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--simi-space-xs);
+  padding: 2px var(--simi-space-sm);
+  border-radius: var(--simi-radius-full);
+  font-size: var(--simi-font-size-xs);
+  letter-spacing: 0.02em;
+}
+
+.badge-success {
+  background: var(--simi-color-success-soft);
+  color: var(--simi-color-success);
+}
+
+.badge-muted {
+  background: var(--simi-color-bg-subtle);
+  color: var(--simi-color-text-muted);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.text-success {
+  color: var(--simi-color-success);
+}
+
+.text-danger {
+  color: var(--simi-color-danger);
+}

@@ -1,0 +1,73 @@
+<form class="form" [formRoot]="form">
+  <div class="field">
+    <label class="label">
+      Libellé
+      <input [formField]="form.libelle" placeholder="Ex : Abonnement streaming" />
+    </label>
+
+    <div class="erreur">
+      @if (form.libelle().invalid()) {
+        {{ form.libelle().errors()?.[0]?.message }}
+      }
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="field">
+      <label class="label">
+        Montant (€)
+        <input type="number" [formField]="form.montant" placeholder="0,00" />
+      </label>
+
+      <div class="erreur">
+        @if (form.montant().invalid()) {
+          {{ form.montant().errors()?.[0]?.message }}
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        Fréquence
+        <select [formField]="form.frequence">
+          <option value="mensuel">Mensuel</option>
+          <option value="annuel">Annuel</option>
+        </select>
+      </label>
+
+      <div class="erreur">
+        @if (form.frequence().invalid()) {
+          {{ form.frequence().errors()?.[0]?.message }}
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        Catégorie
+        <select [formField]="form.categorie">
+          @for (categorie of CATEGORIES; track $index) {
+            <option [value]="categorie">{{ categorie }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="erreur">
+        @if (form.categorie().invalid()) {
+          {{ form.categorie().errors()?.[0]?.message }}
+        }
+      </div>
+    </div>
+  </div>
+
+  <p class="aide">
+    Le montant est facturé selon la fréquence choisie (mensuel = par mois, annuel = par an).
+  </p>
+
+  <div class="actions">
+    <simi-button type="button" color="secondary" (click)="cancel.emit()">Annuler</simi-button>
+    <simi-button type="submit" [disabled]="form().invalid()">
+      {{ abonnement() ? 'Enregistrer' : 'Ajouter' }}
+    </simi-button>
+  </div>
+</form>
