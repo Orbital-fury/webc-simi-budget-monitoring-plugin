@@ -8,7 +8,7 @@
         } @else {
           Année {{ selectionPeriode().annee }}
         }
-        <span> · {{ depenses().length }} Dépense{{ depenses().length > 1 ? 's' : '' }}</span>
+        <span>· {{ depenses().length }} Dépense{{ depenses().length > 1 ? 's' : '' }}</span>
       </p>
     </div>
     <app-selecteur-periode></app-selecteur-periode>
@@ -19,11 +19,7 @@
     <simi-card>
       <div slot="header" style="display: flex; justify-content: space-between">
         <span>Budget</span>
-        <span>
-          {{ referenceBudget() | formatEuros }}
-          /
-          {{ budget() | formatEuros }}
-        </span>
+        <span>{{ referenceBudget() | formatEuros }} / {{ budget() | formatEuros }}</span>
       </div>
       <div class="barre-fond">
         <div
@@ -34,11 +30,11 @@
       </div>
       <div class="barre-pied">
         @if (budget() === 0) {
-          <span class="text-muted"> Définissez un budget mensuel pour suivre vos dépenses. </span>
+          <span class="text-muted">Définissez un budget mensuel pour suivre vos dépenses.</span>
         } @else if (referenceBudget() > budget()) {
-          <span class="text-danger"> Budget dépassé de {{ pourcentageBudget() - 100 }} % </span>
+          <span class="text-danger">Budget dépassé de {{ pourcentageBudget() - 100 }} %</span>
         } @else {
-          <span class="text-success"> {{ pourcentageBudget() }} % du budget utilisé </span>
+          <span class="text-success">{{ pourcentageBudget() }} % du budget utilisé</span>
         }
       </div>
     </simi-card>
@@ -66,9 +62,9 @@
               ></div>
               <span class="ligne-libelle">
                 {{ ligne.libelle }}
-                <span class="badge badge-muted">{{
-                  ligne.type === 'abonnement' ? 'abonnement' : 'ponctuelle'
-                }}</span>
+                <span class="badge badge-muted">
+                  {{ ligne.type === 'abonnement' ? 'abonnement' : 'ponctuelle' }}
+                </span>
               </span>
               <span class="ligne-montant">{{ ligne.montant | formatEuros }}</span>
             </li>

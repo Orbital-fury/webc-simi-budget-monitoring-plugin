@@ -75,7 +75,8 @@
       <span slot="header">Supprimer l'abonnement ?</span>
       <p>
         Voulez-vous vraiment supprimer l'abonnement
-        <strong>{{ aSupprimer()!.libelle }}</strong> ({{ aSupprimer()!.montant | formatEuros }}/{{
+        <strong>{{ aSupprimer()!.libelle }}</strong>
+        ({{ aSupprimer()!.montant | formatEuros }}/{{
           aSupprimer()!.frequence === 'mensuel' ? 'mois' : 'an'
         }}) ?
       </p>

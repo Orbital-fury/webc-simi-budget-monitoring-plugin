@@ -5,5 +5,14 @@
   "tabWidth": 2,
   "semi": true,
   "bracketSameLine": false,
-  "overrides": [{ "files": "*.html", "options": { "parser": "angular" } }]
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular",
+        "bracketSameLine": false,
+        "htmlWhitespaceSensitivity": "ignore"
+      }
+    }
+  ]
 }
