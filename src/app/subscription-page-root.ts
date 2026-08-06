@@ -2,10 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  effect,
   ElementRef,
   inject,
-  input,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
@@ -13,7 +11,7 @@ import { CarteSaisieNombre } from './components/carte-saisie-nombre/carte-saisie
 
 import { SectionSuivi } from './components/section-suivi/section-suivi';
 import { PluginContext } from './core/plugin-context';
-import { PLUGIN_ACTION_EVENT, type PluginStorage, type ToastVariant } from './core/plugin-contract';
+import { PLUGIN_ACTION_EVENT, type ToastVariant } from './core/plugin-contract';
 import { SectionAbonnements } from './components/section-abonnements/section-abonnements';
 
 /**
@@ -45,20 +43,8 @@ export class SubscriptionPageRoot {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   protected readonly context = inject(PluginContext);
 
-  readonly storage = input<PluginStorage>();
-
   salaire = this.context.salaire;
   budget = this.context.budget;
-
-  constructor() {
-    effect(async () => {
-      const currentStorage = this.storage();
-
-      if (currentStorage) {
-        this.context.setStorage(currentStorage);
-      }
-    });
-  }
 
   protected onBudget(budget: number) {
     this.context.updateBudget(budget);

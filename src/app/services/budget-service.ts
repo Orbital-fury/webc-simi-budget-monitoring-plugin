@@ -11,7 +11,7 @@ export class BudgetService {
   ): LigneDepense[] {
     const lignesAbonnements: LigneDepense[] = abonnements
       .map((a) => ({
-        id: a.id,
+        id: a.id!,
         libelle: a.libelle,
         categorie: a.categorie,
         montant: this.contributionAbonnement(a, vue),

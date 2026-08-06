@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { couleurCategorie, formatEuros, formatEurosCompact } from './utils/helper';
-import { Categorie } from './models/models';
+import { formatEuros, formatEurosCompact } from './utils/helper';
 
 @Pipe({
   name: 'formatEuros',
@@ -19,15 +18,5 @@ export class FormatEurosPipe implements PipeTransform {
 export class FormatEurosCompactPipe implements PipeTransform {
   transform(value: number): string {
     return formatEurosCompact(value);
-  }
-}
-
-@Pipe({
-  name: 'couleurCategorie',
-  standalone: true,
-})
-export class CouleurCategoriePipe implements PipeTransform {
-  transform(categorie: Categorie): string {
-    return couleurCategorie(categorie);
   }
 }

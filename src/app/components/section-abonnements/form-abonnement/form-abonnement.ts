@@ -1,12 +1,19 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, input, linkedSignal, output } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  input,
+  linkedSignal,
+  output,
+} from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { Abonnement, Categorie, Frequence } from '../../../models/models';
-import { CATEGORIES } from '../../../utils/helper';
+import { PluginContext } from '../../../core/plugin-context';
 
 interface AbonnementFormModel {
   montant: number | null;
   libelle: string;
-  categorie: Categorie;
+  categorie: string;
   frequence: Frequence;
 }
 
@@ -18,7 +25,7 @@ interface AbonnementFormModel {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class FormAbonnement {
-  protected readonly CATEGORIES = CATEGORIES;
+  context = inject(PluginContext);
 
   abonnement = input<Abonnement>();
   onglet = input.required<Frequence>();
@@ -26,11 +33,16 @@ export class FormAbonnement {
   submit = output<Abonnement>();
   cancel = output<void>();
 
+  categories = linkedSignal<Categorie[]>(() => this.context.categories());
+
   // Writable state derivée de `abonnement()`, réinitialisée si l'input change (ex. ré-ouverture sur un autre abonnement).
   abonnementModel = linkedSignal<AbonnementFormModel>(() => ({
     montant: this.abonnement()?.montant ?? null,
     libelle: this.abonnement()?.libelle ?? '',
-    categorie: this.abonnement()?.categorie ?? 'Autre',
+    categorie:
+      this.abonnement()?.categorie.id! ??
+      this.categories().find((c) => c.name === 'Autre')?.id! ??
+      this.categories()[0].id!,
     frequence: this.abonnement()?.frequence ?? this.onglet(),
   }));
 
@@ -53,10 +65,10 @@ export class FormAbonnement {
     const formData = this.abonnementModel();
 
     this.submit.emit({
-      id: this.abonnement()?.id ?? crypto.randomUUID(),
+      id: this.abonnement()?.id,
       libelle: formData.libelle,
       montant: Number(formData.montant),
-      categorie: formData.categorie,
+      categorie: this.categories().find((c) => c.id === formData.categorie)!,
       frequence: formData.frequence,
       periodes: this.abonnement()?.periodes ?? [{ debut: new Date(), fin: null }],
     });

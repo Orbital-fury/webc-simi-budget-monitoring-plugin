@@ -16,11 +16,8 @@
     <ul class="legende">
       @for (r of repartition(); track r.categorie) {
         <li>
-          <span
-            class="badge-dot"
-            [style]="{ backgroundColor: r.categorie | couleurCategorie }"
-          ></span>
-          <span class="cat">{{ r.categorie }}</span>
+          <span class="badge-dot" [style]="{ backgroundColor: r.categorie.hexaColor }"></span>
+          <span class="cat">{{ r.categorie.name }}</span>
           <span class="montant">{{ r.montant | formatEurosCompact }}</span>
         </li>
       }

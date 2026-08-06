@@ -56,10 +56,7 @@
         <ul class="liste-dep">
           @for (ligne of depenses(); track ligne.id) {
             <li class="ligne-dep">
-              <div
-                class="badge-dot"
-                [style]="{ backgroundColor: ligne.categorie | couleurCategorie }"
-              ></div>
+              <div class="badge-dot" [style]="{ backgroundColor: ligne.categorie.hexaColor }"></div>
               <span class="ligne-libelle">
                 {{ ligne.libelle }}
                 <span class="badge badge-muted">

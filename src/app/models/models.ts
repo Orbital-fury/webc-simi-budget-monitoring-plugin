@@ -1,5 +1,9 @@
 /** Catégories de dépenses disponibles dans l'application. */
-export type Categorie = 'Courses' | 'Loyer' | 'Loisirs' | 'Transport' | 'Autre';
+export interface Categorie {
+  id?: string;
+  name: string;
+  hexaColor: string;
+}
 
 /** Fréquence de facturation d'un abonnement récurrent. */
 export type Frequence = 'mensuel' | 'annuel';
@@ -39,7 +43,7 @@ export interface RepartitionDepense {
 
 /** Abonnement récurrent (mensuel ou annuel), avec historique des périodes d'activité. */
 export interface Abonnement {
-  id: string;
+  id?: string;
   /** Montant facturé SELON la fréquence (mensuel = par mois, annuel = par an). */
   montant: number;
   categorie: Categorie;

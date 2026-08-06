@@ -1,21 +1,4 @@
-import { Categorie, Periode } from '../models/models';
-
-export const CATEGORIES: readonly Categorie[] = [
-  'Courses',
-  'Loyer',
-  'Loisirs',
-  'Transport',
-  'Autre',
-];
-
-/** Couleur associée à chaque catégorie. */
-export const CATEGORY_COLORS: Record<Categorie, string> = {
-  Courses: '#6366f1',
-  Loyer: '#ef4444',
-  Loisirs: '#f59e0b',
-  Transport: '#10b981',
-  Autre: '#6b7280',
-} as const;
+import { Periode } from '../models/models';
 
 /** Formate un montant en euros (français). Ex : 1234.5 -> "1 234,50 €". */
 export function formatEuros(montant: number): string {
@@ -31,11 +14,6 @@ export function formatEurosCompact(montant: number): string {
     currency: 'EUR',
     maximumFractionDigits: montant % 1 === 0 ? 0 : 2,
   }).format(montant);
-}
-
-/** Retourne la valeur de couleur calculée d'une catégorie (depuis les variables CSS). */
-export function couleurCategorie(categorie: Categorie): string {
-  return CATEGORY_COLORS[categorie];
 }
 
 /** Un abonnement est actif tant que sa dernière période n'a pas de date de fin. */

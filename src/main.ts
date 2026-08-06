@@ -6,6 +6,8 @@ import { SubscriptionPageRoot } from './app/subscription-page-root';
 import { SubscriptionWidget } from './app/subscription-widget/subscription-widget';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { BudgetApiService } from './app/services/budget-api.service';
+import { PocketBaseBudgetResource } from './app/services/pocketbase-budget-resource.service';
 
 const PAGE_ELEMENT = 'subscription-page';
 const WIDGET_ELEMENT = 'subscription-widget';
@@ -22,7 +24,11 @@ async function registerElement(): Promise<void> {
   // application globale bootstrappee sur <app-root> - conforme au
   // fonctionnement du Hub qui peut (dis)monter le plugin dynamiquement.
   const app = await createApplication({
-    providers: [provideZonelessChangeDetection(), { provide: LOCALE_ID, useValue: 'fr-FR' }],
+    providers: [
+      provideZonelessChangeDetection(),
+      { provide: LOCALE_ID, useValue: 'fr-FR' },
+      { provide: BudgetApiService, useClass: PocketBaseBudgetResource },
+    ],
   });
 
   const SubscriptionPageElement = createCustomElement(SubscriptionPageRoot, {

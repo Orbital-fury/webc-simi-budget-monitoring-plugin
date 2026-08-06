@@ -1,23 +1,15 @@
 import { Component, computed, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { PluginContext } from '../../core/plugin-context';
 import type { RepartitionDepense, SelectionPeriode } from '../../models/models';
-import { CouleurCategoriePipe, FormatEurosPipe } from '../../pipes';
+import { FormatEurosPipe } from '../../pipes';
 import { BudgetService } from '../../services/budget-service';
-import { CATEGORIES } from '../../utils/helper';
 import { RepartitionCategories } from './repartition-categories/repartition-categories';
 import { SelecteurPeriode } from './selecteur-periode/selecteur-periode';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-section-suivi',
-  imports: [
-    SelecteurPeriode,
-    RepartitionCategories,
-    CouleurCategoriePipe,
-    FormatEurosPipe,
-    DatePipe,
-    TitleCasePipe,
-  ],
+  imports: [SelecteurPeriode, RepartitionCategories, FormatEurosPipe, DatePipe, TitleCasePipe],
   templateUrl: './section-suivi.html',
   styleUrl: './section-suivi.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -55,11 +47,14 @@ export class SectionSuivi {
   largeurBarre = computed<string>(() => `${Math.min(this.progressionBudget(), 100)}%`);
 
   repartitionDepenses = computed<RepartitionDepense[]>(() =>
-    CATEGORIES.map((categorie) => ({
-      categorie,
-      montant: this.depenses()
-        .filter((depense) => depense.categorie === categorie)
-        .reduce((total, depense) => total + depense.montant, 0),
-    })).filter((r) => r.montant > 0),
+    this.context
+      .categories()
+      .map((categorie) => ({
+        categorie,
+        montant: this.depenses()
+          .filter((depense) => depense.categorie.id! === categorie.id!)
+          .reduce((total, depense) => total + depense.montant, 0),
+      }))
+      .filter((r) => r.montant > 0),
   );
 }

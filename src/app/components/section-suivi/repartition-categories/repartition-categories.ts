@@ -1,13 +1,13 @@
 import { Component, computed, input } from '@angular/core';
 import { BaseChartDirective, provideCharts } from 'ng2-charts';
 import { ChartData, ChartOptions, DoughnutController, ArcElement, Tooltip } from 'chart.js';
-import { couleurCategorie, formatEurosCompact } from '../../../utils/helper';
+import { formatEurosCompact } from '../../../utils/helper';
 import { RepartitionDepense } from '../../../models/models';
-import { CouleurCategoriePipe, FormatEurosCompactPipe } from '../../../pipes';
+import { FormatEurosCompactPipe } from '../../../pipes';
 
 @Component({
   selector: 'app-repartition-categories',
-  imports: [BaseChartDirective, CouleurCategoriePipe, FormatEurosCompactPipe],
+  imports: [BaseChartDirective, FormatEurosCompactPipe],
   templateUrl: './repartition-categories.html',
   styleUrl: './repartition-categories.css',
   providers: [provideCharts({ registerables: [DoughnutController, ArcElement, Tooltip] })],
@@ -20,13 +20,13 @@ export class RepartitionCategories {
   );
 
   chartData = computed<ChartData<'doughnut'>>(() => ({
-    labels: this.repartition().map((r) => r.categorie),
+    labels: this.repartition().map((r) => r.categorie.name),
     datasets: [
       {
         data: this.repartition().map((r) => r.montant),
         // On essaie d'abord les couleurs calculées (thème), sinon on retombe sur les couleurs fixes.
         backgroundColor: this.repartition().map((r) => {
-          return couleurCategorie(r.categorie);
+          return r.categorie.hexaColor;
         }),
         borderWidth: 2,
         borderColor: 'rgba(0,0,0,0)',

@@ -46,8 +46,8 @@
       <label class="label">
         Catégorie
         <select [formField]="form.categorie">
-          @for (categorie of CATEGORIES; track $index) {
-            <option [value]="categorie">{{ categorie }}</option>
+          @for (categorie of categories(); track $index) {
+            <option [value]="categorie.id">{{ categorie.name }}</option>
           }
         </select>
       </label>

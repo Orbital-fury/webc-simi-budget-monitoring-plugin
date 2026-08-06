@@ -67,7 +67,7 @@ export class SectionAbonnements {
 
   confirmerSuppression(): void {
     if (this.aSupprimer()) {
-      this.context.supprimerAbonnement(this.aSupprimer()!.id).then(() => {
+      this.context.supprimerAbonnement(this.aSupprimer()!.id!).then(() => {
         this.aSupprimer.set(null);
       });
     }

@@ -1,17 +1,12 @@
-import { Service, signal } from '@angular/core';
+import { Service, inject, signal } from '@angular/core';
 
-import { Abonnement, Periode } from '../models/models';
-import type { PluginStorage } from './plugin-contract';
-
-// const SELECTED_PLAN_KEY = 'selected-plan-id';
-const SALAIRE_KEY = 'salaire';
-const BUDGET_KEY = 'budget';
-const ABONNEMENTS_KEY = 'abonnements';
+import { Abonnement, Categorie, Periode } from '../models/models';
+import { BudgetApiService } from '../services/budget-api.service';
 
 /**
  * Etat et dependances partagees par les 3 vues (equivalent du "store" cote
- * plugin vanilla) : URL de base des assets, et facade de stockage cloisonne
- * (Dexie/IndexedDB) recue du Hub via l'`@Input() storage` du composant racine.
+ * plugin vanilla) : facade reactive (Signaux) au-dessus de `BudgetApiService`
+ * (PocketBase), avec chargement initial et mutations synchronisees.
  *
  * `@Service()` (root-provided) : chaque `<subscription-page>` monte via
  * `createCustomElement` obtient sa PROPRE application Angular (creee dans
@@ -21,41 +16,32 @@ const ABONNEMENTS_KEY = 'abonnements';
  */
 @Service()
 export class PluginContext {
+  private readonly api = inject(BudgetApiService);
+
   /** Incremente a chaque retour au premier plan (`visibilitychange`) - voir `SubscriptionPageRoot`. */
   readonly visibilityTick = signal(0);
 
   readonly salaire = signal<number>(0);
   readonly budget = signal<number>(0);
   readonly abonnements = signal<Abonnement[]>([]);
+  readonly categories = signal<Categorie[]>([]);
 
-  private storage: PluginStorage | undefined;
+  constructor() {
+    void this.initData();
+  }
 
   notifyVisible(): void {
     this.visibilityTick.update((tick) => tick + 1);
   }
 
-  /**
-   * Appelé au montage du Web Component pour injecter le stockage et charger les données initiales.
-   */
-  async setStorage(storage: PluginStorage | undefined): Promise<void> {
-    this.storage = storage;
-    await this.initFromStorage();
-  }
-
-  // 2. Méthodes de mise à jour (Mise à jour réactive + Sauvegarde)
   async updateSalaire(nouveauSalaire: number): Promise<void> {
-    this.salaire.set(nouveauSalaire);
-    await this.saveKey(SALAIRE_KEY, nouveauSalaire);
+    const salaire = await this.api.updateSalaire(nouveauSalaire);
+    this.salaire.set(salaire);
   }
 
   async updateBudget(nouveauBudget: number): Promise<void> {
-    this.budget.set(nouveauBudget);
-    await this.saveKey(BUDGET_KEY, nouveauBudget);
-  }
-
-  async updateAbonnements(nouveauxAbonnements: Abonnement[]): Promise<void> {
-    this.abonnements.set(nouveauxAbonnements);
-    await this.saveKey(ABONNEMENTS_KEY, nouveauxAbonnements);
+    const budget = await this.api.updateBudget(nouveauBudget);
+    this.budget.set(budget);
   }
 
   /** Applique une transformation aux périodes d'un abonnement (arrêt/reprise) et persiste le résultat. */
@@ -63,60 +49,45 @@ export class PluginContext {
     id: string,
     transform: (periodes: Periode[]) => Periode[],
   ): Promise<void> {
-    console.log(`[PluginContext] modifierPeriodesAbonnement(${id})`);
     const abonnements = this.abonnements();
     const index = abonnements.findIndex((a) => a.id === id);
     if (index === -1) return;
+    const nouvellesPeriodes = transform(abonnements[index].periodes);
+    await this.api.updatePeriodesAbonnement(id, nouvellesPeriodes);
     const nouveaux = [...abonnements];
-    nouveaux[index] = { ...nouveaux[index], periodes: transform(abonnements[index].periodes) };
-    await this.updateAbonnements(nouveaux);
+    nouveaux[index] = { ...nouveaux[index], periodes: nouvellesPeriodes };
+    this.abonnements.set(nouveaux);
   }
 
   async supprimerAbonnement(id: string): Promise<void> {
-    const abonnements = this.abonnements();
-    const nouveaux = abonnements.filter((a) => a.id !== id);
-    if (nouveaux.length === abonnements.length) return;
-    await this.updateAbonnements(nouveaux);
+    await this.api.deleteAbonnement(id);
+    this.abonnements.set(this.abonnements().filter((a) => a.id !== id));
   }
 
   /** Ajoute un nouvel abonnement, ou remplace celui existant si son `id` est déjà présent. */
   async upsertAbonnement(abonnement: Abonnement): Promise<void> {
+    const saved = await this.api.upsertAbonnement(abonnement);
     const abonnements = this.abonnements();
-    const index = abonnements.findIndex((a) => a.id === abonnement.id);
+    const index = abonnements.findIndex((a) => a.id === saved.id);
     const nouveaux =
-      index === -1
-        ? [...abonnements, abonnement]
-        : abonnements.map((a, i) => (i === index ? abonnement : a));
-    await this.updateAbonnements(nouveaux);
+      index === -1 ? [...abonnements, saved] : abonnements.map((a, i) => (i === index ? saved : a));
+    this.abonnements.set(nouveaux);
   }
 
-  /**
-   * Charge les données initiales depuis IndexedDB/Memory dans les Signaux.
-   */
-  private async initFromStorage(): Promise<void> {
-    if (!this.storage) return;
-
+  /** Charge les données initiales (salaire, budget, abonnements) depuis PocketBase dans les Signaux. */
+  private async initData(): Promise<void> {
     try {
-      const [s, b, a] = await Promise.all([
-        this.storage.get<number>(SALAIRE_KEY),
-        this.storage.get<number>(BUDGET_KEY),
-        this.storage.get<Abonnement[]>(ABONNEMENTS_KEY),
+      const [user, abonnements, categories] = await Promise.all([
+        this.api.getUser(),
+        this.api.getAbonnements(),
+        this.api.getCategories(),
       ]);
-
-      if (s !== undefined) this.salaire.set(s);
-      if (b !== undefined) this.budget.set(b);
-      if (a !== undefined) this.abonnements.set(a);
+      this.salaire.set(user.salaire);
+      this.budget.set(user.budget);
+      this.abonnements.set(abonnements);
+      this.categories.set(categories);
     } catch (error) {
-      console.warn('[subscription-page] Erreur chargement initial storage.', error);
-    }
-  }
-
-  private async saveKey(key: string, value: unknown): Promise<void> {
-    if (!this.storage) return;
-    try {
-      await this.storage.set(key, value);
-    } catch (error) {
-      console.warn(`[subscription-page] Écriture de ${key} indisponible.`, error);
+      console.warn('[PluginContext] Erreur chargement initial des données.', error);
     }
   }
 }

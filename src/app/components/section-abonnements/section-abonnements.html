@@ -46,8 +46,8 @@
               [abonnement]="a"
               (editer)="ouvrirEdition(a)"
               (supprimer)="aSupprimer.set(a)"
-              (arreter)="arreterAbonnement(a.id)"
-              (reprendre)="reprendreAbonnement(a.id)"
+              (arreter)="arreterAbonnement(a.id!)"
+              (reprendre)="reprendreAbonnement(a.id!)"
             />
           }
         </div>

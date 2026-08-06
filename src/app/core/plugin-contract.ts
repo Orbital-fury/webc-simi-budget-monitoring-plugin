@@ -20,14 +20,3 @@ export interface PluginActionDetail {
   readonly type: string;
   readonly payload?: unknown;
 }
-
-/**
- * Facade de stockage cloisonne fournie par le Hub (table Dexie/IndexedDB
- * dediee a ce plugin). Optionnelle : `undefined` en dev standalone hors Hub.
- */
-export interface PluginStorage {
-  get<T>(key: string): Promise<T | undefined>;
-  set<T>(key: string, value: T): Promise<void>;
-  remove(key: string): Promise<void>;
-  clear(): Promise<void>;
-}
