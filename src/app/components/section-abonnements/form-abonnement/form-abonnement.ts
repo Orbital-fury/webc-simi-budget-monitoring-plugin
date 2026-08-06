@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, input, linkedSignal, output } from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
-import { Abonnement, Categorie, Frequence } from '../../../models';
+import { Abonnement, Categorie, Frequence } from '../../../models/models';
 import { CATEGORIES } from '../../../utils/helper';
 
 interface AbonnementFormModel {

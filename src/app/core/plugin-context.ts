@@ -1,6 +1,6 @@
 import { Service, signal } from '@angular/core';
 
-import { Abonnement, Periode } from '../models';
+import { Abonnement, Periode } from '../models/models';
 import type { PluginStorage } from './plugin-contract';
 
 // const SELECTED_PLAN_KEY = 'selected-plan-id';

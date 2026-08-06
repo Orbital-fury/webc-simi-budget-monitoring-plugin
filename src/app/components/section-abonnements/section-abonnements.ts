@@ -1,7 +1,7 @@
 import { Component, computed, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { FormAbonnement } from './form-abonnement/form-abonnement';
 import { PluginContext } from '../../core/plugin-context';
-import { Abonnement, Frequence, Periode } from '../../models';
+import { Abonnement, Frequence, Periode } from '../../models/models';
 import { FormatEurosPipe } from '../../pipes';
 import { estAbonnementActif } from '../../utils/helper';
 import { CarteAbonnement } from './carte-abonnement/carte-abonnement';

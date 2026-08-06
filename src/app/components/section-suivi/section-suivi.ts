@@ -1,6 +1,6 @@
 import { Component, computed, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { PluginContext } from '../../core/plugin-context';
-import type { RepartitionDepense, SelectionPeriode } from '../../models';
+import type { RepartitionDepense, SelectionPeriode } from '../../models/models';
 import { CouleurCategoriePipe, FormatEurosPipe } from '../../pipes';
 import { BudgetService } from '../../services/budget-service';
 import { CATEGORIES } from '../../utils/helper';

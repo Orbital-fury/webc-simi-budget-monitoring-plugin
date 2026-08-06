@@ -1,4 +1,4 @@
-import { Categorie, Periode } from '../models';
+import { Categorie, Periode } from '../models/models';
 
 export const CATEGORIES: readonly Categorie[] = [
   'Courses',

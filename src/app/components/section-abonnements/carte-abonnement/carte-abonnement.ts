@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, input, output, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Abonnement } from '../../../models';
+import { Abonnement } from '../../../models/models';
 import { FormatEurosPipe } from '../../../pipes';
 import { estAbonnementActif } from '../../../utils/helper';
 

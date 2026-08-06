@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { BaseChartDirective, provideCharts } from 'ng2-charts';
 import { ChartData, ChartOptions, DoughnutController, ArcElement, Tooltip } from 'chart.js';
 import { couleurCategorie, formatEurosCompact } from '../../../utils/helper';
-import { RepartitionDepense } from '../../../models';
+import { RepartitionDepense } from '../../../models/models';
 import { CouleurCategoriePipe, FormatEurosCompactPipe } from '../../../pipes';
 
 @Component({

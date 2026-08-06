@@ -18,11 +18,12 @@
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",
-    "@angular/forms": "^22.0.0",
     "@angular/elements": "^22.0.0",
+    "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "chart.js": "^4.5.1",
     "ng2-charts": "^10.0.0",
+    "pocketbase": "^0.27.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

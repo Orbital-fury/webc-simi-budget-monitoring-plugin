@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { couleurCategorie, formatEuros, formatEurosCompact } from './utils/helper';
-import { Categorie } from './models';
+import { Categorie } from './models/models';
 
 @Pipe({
   name: 'formatEuros',

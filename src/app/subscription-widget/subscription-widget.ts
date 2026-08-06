@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { PluginContext } from '../core/plugin-context';
 import { FormatEurosPipe } from '../pipes';
 import { BudgetService } from '../services/budget-service';
-import { SelectionPeriode } from '../models';
+import { SelectionPeriode } from '../models/models';
 
 @Component({
   selector: 'app-subscription-widget',
