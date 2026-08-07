@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --port 4202",
     "build": "ng build",
+    "postbuild": "node scripts/compute-integrity.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",

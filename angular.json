@@ -62,6 +62,9 @@
               "buildTarget": "webc-simi-budget-monitoring-plugin:build:development"
             }
           },
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "defaultConfiguration": "development"
         },
         "test": {

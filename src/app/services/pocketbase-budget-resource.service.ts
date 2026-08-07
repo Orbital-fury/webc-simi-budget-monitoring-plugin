@@ -4,7 +4,8 @@ import { Abonnement, Categorie, Periode } from '../models/models';
 import { AbonnementRecord, CategorieRecord, User } from '../models/pocketbase-models';
 import { BudgetApiService } from './budget-api.service';
 
-const pb = new PocketBase('http://127.0.0.1:8090');
+const pb = new PocketBase('/');
+// const pb = new PocketBase('http://127.0.0.1:8090');
 
 // TODO: remplacer par l'id de l'utilisateur authentifié (pb.authStore) une fois l'auth en place.
 const USER_ID = '8ytqtzvr12bp2hr';
