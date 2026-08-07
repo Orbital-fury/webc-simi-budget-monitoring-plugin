@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "webc-simi-subscription-plugin": {
+    "webc-simi-budget-monitoring-plugin": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "webc-simi-subscription-plugin:build:production"
+              "buildTarget": "webc-simi-budget-monitoring-plugin:build:production"
             },
             "development": {
-              "buildTarget": "webc-simi-subscription-plugin:build:development"
+              "buildTarget": "webc-simi-budget-monitoring-plugin:build:development"
             }
           },
           "defaultConfiguration": "development"
